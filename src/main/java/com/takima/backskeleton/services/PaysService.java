@@ -4,6 +4,7 @@ import com.takima.backskeleton.DAO.ContinentDao;
 import com.takima.backskeleton.DAO.PaysDao;
 import com.takima.backskeleton.models.Continent;
 import com.takima.backskeleton.models.Pays;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -18,6 +19,9 @@ import java.util.Map;
 
 @Service
 public class PaysService {
+    public PaysService(PaysDao paysDao) {
+        this.paysDao=paysDao;
+    }
     @Autowired
     private PaysDao paysDao;
     @Autowired
@@ -79,6 +83,12 @@ public class PaysService {
 
         System.out.println("Données enregistrées : " + paysDao.count() + " pays et "
                 + continentDao.count() + " catégories !");
+    }
+    public List<Pays> findAll(){
+        Iterable<Pays> paysList = paysDao.findAll();
+        List<Pays> listPays = new ArrayList<>();
+        paysList.forEach(listPays :: add);
+        return listPays;
     }
 
 }
