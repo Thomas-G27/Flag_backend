@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/pays")
+@RequestMapping("api/pays")
 @RequiredArgsConstructor
 @CrossOrigin
 public class PaysController {
 
     private final PaysService paysService;
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<List<Pays>> getAll() {
         return ResponseEntity.ok(paysService.findAll());
     }
