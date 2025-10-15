@@ -31,7 +31,7 @@ CREATE INDEX IF NOT EXISTS idx_pl_language ON pays_language(language_id);
 CREATE INDEX IF NOT EXISTS idx_pl_pays     ON pays_language(pays_id);
 
 -- 5) UTILISATEUR (éviter le mot réservé USER)
-CREATE TABLE IF NOT EXISTS utilisateur (user_id BIGSERIAL PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS utilisateur (id BIGSERIAL PRIMARY KEY,
                                         name    VARCHAR(128) NOT NULL,
                                         email   VARCHAR(255) NOT NULL UNIQUE
 );
@@ -40,11 +40,11 @@ CREATE TABLE IF NOT EXISTS utilisateur (user_id BIGSERIAL PRIMARY KEY,
 CREATE TABLE IF NOT EXISTS partie (partie_id  BIGSERIAL PRIMARY KEY,
                                    score      INTEGER     NOT NULL DEFAULT 0,
                                    "date"     TIMESTAMP   NOT NULL DEFAULT NOW(),
-                                   user_id    BIGINT,
+                                   id    BIGINT,
                                    CONSTRAINT fk_partie_user
-                                      FOREIGN KEY (user_id) REFERENCES utilisateur(user_id) ON DELETE SET NULL
+                                      FOREIGN KEY (id) REFERENCES utilisateur(id) ON DELETE SET NULL
 );
 
 -- Index utiles
 CREATE INDEX IF NOT EXISTS idx_pays_continent  ON pays(continent_id);
-CREATE INDEX IF NOT EXISTS idx_partie_user     ON partie(user_id);
+CREATE INDEX IF NOT EXISTS idx_partie_user     ON partie(id);

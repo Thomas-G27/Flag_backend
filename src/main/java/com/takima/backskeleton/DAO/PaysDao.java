@@ -1,13 +1,14 @@
 package com.takima.backskeleton.DAO;
 
-import com.takima.backskeleton.models.Pays;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Optional;
+import com.takima.backskeleton.models.Pays;
 
 @Repository
 public interface PaysDao extends JpaRepository<Pays, Long> {
@@ -35,4 +36,11 @@ public interface PaysDao extends JpaRepository<Pays, Long> {
 
 
     Optional<Pays> findByNameIgnoreCase(String name);
+
+  // returns the first Pays ordered by id ascending (useful to get the "first" row)
+  Optional<Pays> findFirstByOrderByIdAsc();
+
+  // fetch the first Pays and initialize its continent to avoid LazyInitializationException during JSON serialization
+  @Query("select p from Pays p left join fetch p.continent where p.id = (select min(p2.id) from Pays p2)")
+  Optional<Pays> findFirstWithContinent();
 }

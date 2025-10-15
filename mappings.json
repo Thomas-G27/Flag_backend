@@ -1,0 +1,21 @@
+﻿{
+    "{GET [/debug/ping]}":  "com.takima.backskeleton.controllers.DebugController#ping()",
+    "{GET [/v3/api-docs], produces [application/json]}":  "org.springdoc.webmvc.api.OpenApiWebMvcResource#openapiJson(HttpServletRequest, String, Locale)",
+    "{GET [/swagger-ui.html]}":  "org.springdoc.webmvc.ui.SwaggerWelcomeWebMvc#redirectToUi(HttpServletRequest)",
+    "{GET [/debug/mappings]}":  "com.takima.backskeleton.controllers.DebugController#mappings()",
+    "{POST [/students]}":  "com.takima.backskeleton.controllers.StudentController#addStudent(StudentDto)",
+    "{POST [/api/pays/seed]}":  "com.takima.backskeleton.controllers.PaysController#seed()",
+    "{POST [/students/{id}]}":  "com.takima.backskeleton.controllers.StudentController#updateStudent(StudentDto, Long)",
+    "{GET [/students/{id}]}":  "com.takima.backskeleton.controllers.StudentController#getStudentById(Long)",
+    "{GET [/students]}":  "com.takima.backskeleton.controllers.StudentController#listStudents(Integer, Integer)",
+    "{GET [/majors]}":  "com.takima.backskeleton.controllers.MajorController#findAll()",
+    "{GET [/api/pays]}":  "com.takima.backskeleton.controllers.PaysController#getAll()",
+    "{GET [/api/pays/first]}":  "com.takima.backskeleton.controllers.PaysController#getFirst()",
+    "{GET [/courses]}":  "com.takima.backskeleton.controllers.CourseController#getAllCourses()",
+    "{DELETE [/students/{id}]}":  "com.takima.backskeleton.controllers.StudentController#deleteStudent(Long)",
+    "{GET [/majors/{id}/students]}":  "com.takima.backskeleton.controllers.MajorController#getStudentsOfMajor(Long)",
+    "{ [/error], produces [text/html]}":  "org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController#errorHtml(HttpServletRequest, HttpServletResponse)",
+    "{GET [/v3/api-docs/swagger-config], produces [application/json]}":  "org.springdoc.webmvc.ui.SwaggerConfigResource#openapiJson(HttpServletRequest)",
+    "{GET [/v3/api-docs.yaml], produces [application/vnd.oai.openapi]}":  "org.springdoc.webmvc.api.OpenApiWebMvcResource#openapiYaml(HttpServletRequest, String, Locale)",
+    "{ [/error]}":  "org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController#error(HttpServletRequest)"
+}

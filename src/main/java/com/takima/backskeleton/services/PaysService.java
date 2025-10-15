@@ -84,11 +84,18 @@ public class PaysService {
         System.out.println("Données enregistrées : " + paysDao.count() + " pays et "
                 + continentDao.count() + " catégories !");
     }
+
     public List<Pays> findAll(){
         Iterable<Pays> paysList = paysDao.findAll();
         List<Pays> listPays = new ArrayList<>();
         paysList.forEach(listPays :: add);
         return listPays;
+    }
+
+    public java.util.Optional<Pays> findFirst() {
+        // try to fetch continent eagerly to avoid lazy loading during serialization
+        java.util.Optional<Pays> opt = paysDao.findFirstWithContinent();
+        return opt.isPresent() ? opt : paysDao.findFirstByOrderByIdAsc();
     }
 
 }
