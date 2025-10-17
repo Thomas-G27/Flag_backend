@@ -65,23 +65,45 @@ CREATE TABLE IF NOT EXISTS pays_language (
 CREATE INDEX IF NOT EXISTS idx_pl_language ON pays_language(language_id);
 CREATE INDEX IF NOT EXISTS idx_pl_pays     ON pays_language(pays_id);
 
--- 5) UTILISATEUR (éviter le mot réservé USER)
+-- 5) UTILISATEUR
 CREATE TABLE IF NOT EXISTS utilisateur (
                                         user_id    BIGSERIAL PRIMARY KEY,
                                         name  VARCHAR(128) NOT NULL,
                                         email VARCHAR(255) NOT NULL UNIQUE
 );
-
--- 6) PARTIE (historique des parties) — rattache la partie à un utilisateur (optionnel)
-CREATE TABLE IF NOT EXISTS partie (
-                                      id     BIGSERIAL PRIMARY KEY,
-                                      score  INTEGER     NOT NULL DEFAULT 0,
-                                      "date" TIMESTAMP   NOT NULL DEFAULT NOW(),
-                                      user_id BIGINT,
-                                      CONSTRAINT fk_partie_user
-                                          FOREIGN KEY (user_id) REFERENCES utilisateur(user_id) ON DELETE SET NULL
+CREATE TABLE partie (
+                        id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                        score VARCHAR(50),
+                        date VARCHAR(50)
+);
+CREATE TABLE partie_pays (
+                             partie_id BIGINT NOT NULL,
+                             pays_id BIGINT NOT NULL,
+                             PRIMARY KEY (partie_id, pays_id),
+                             CONSTRAINT fk_partie_pays_partie FOREIGN KEY (partie_id)
+                                 REFERENCES partie (id) ON DELETE CASCADE,
+                             CONSTRAINT fk_partie_pays_pays FOREIGN KEY (pays_id)
+                                 REFERENCES pays (id) ON DELETE CASCADE
+);
+CREATE TABLE question (
+                          id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                          partie_id BIGINT,
+                          ordre INT,
+                          enonce TEXT NOT NULL,
+                          optionA VARCHAR(255),
+                          optionB VARCHAR(255),
+                          optionC VARCHAR(255),
+                          optionD VARCHAR(255),
+                          correctOption VARCHAR(10),
+                          userOption VARCHAR(10),
+                          isCorrect BOOLEAN,
+                          pays_id BIGINT,
+                          CONSTRAINT fk_question_partie FOREIGN KEY (partie_id)
+                              REFERENCES partie (id) ON DELETE CASCADE,
+                          CONSTRAINT fk_question_pays FOREIGN KEY (pays_id)
+                              REFERENCES pays (id) ON DELETE SET NULL
 );
 
--- Index utiles
+
 CREATE INDEX IF NOT EXISTS idx_pays_continent  ON pays(continent_id);
 CREATE INDEX IF NOT EXISTS idx_partie_user     ON partie(user_id);
