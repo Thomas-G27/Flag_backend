@@ -12,27 +12,32 @@ import java.util.Optional;
 @Repository
 public interface PaysDao extends JpaRepository<Pays, Long> {
 
-
     List<Pays> findDistinctByLanguages_NameIgnoreCase(String languageName);
 
-
     List<Pays> findByContinent_NameIgnoreCase(String continentName);
-
 
     List<Pays> findByLanguages_Id(Long languageId);
     List<Pays> findByContinent_Id(Long continentId);
 
-
+    // ➜ FETCH JOIN (sans paramètres) pour sérialiser sans proxy LAZY
     @Query("""
-         select distinct p
-         from Pays p
-         join p.languages l
-         where lower(l.name) = lower(:language)
-           and lower(p.continent.name) = lower(:continent)
-         """)
+        select distinct pay
+        from Pays pay
+        left join fetch pay.continent
+        left join fetch pay.languages
+    """)
+    List<Pays> findAllWithRelations();
+
+    // ➜ Requête AVEC paramètres pour filtrer langue + continent
+    @Query("""
+        select distinct pay
+        from Pays pay
+        join pay.languages l
+        where lower(l.name) = lower(:language)
+          and lower(pay.continent.name) = lower(:continent)
+    """)
     List<Pays> findByLanguageAndContinent(@Param("language") String language,
                                           @Param("continent") String continent);
-
 
     Optional<Pays> findByNameIgnoreCase(String name);
 }
