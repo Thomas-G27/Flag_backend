@@ -12,10 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class PaysService {
@@ -84,11 +81,16 @@ public class PaysService {
         System.out.println("Données enregistrées : " + paysDao.count() + " pays et "
                 + continentDao.count() + " catégories !");
     }
+
     public List<Pays> findAll(){
         Iterable<Pays> paysList = paysDao.findAll();
         List<Pays> listPays = new ArrayList<>();
         paysList.forEach(listPays :: add);
         return listPays;
+    }
+
+    public Optional<Pays> findById(Long id) {
+        return paysDao.findById(id);
     }
 
 }

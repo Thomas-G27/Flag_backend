@@ -19,7 +19,8 @@ public class Continent {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @OneToMany
+    @OneToMany(mappedBy = "continent", cascade = CascadeType.ALL)
     private List<Pays> pays;
+
 
 }

@@ -10,7 +10,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/pays")
 @RequiredArgsConstructor
-@CrossOrigin
+@CrossOrigin(origins = "*") // autorisation a toute les adresses pour des raisons de dev
 public class PaysController {
 
     private final PaysService paysService;
@@ -18,6 +18,13 @@ public class PaysController {
     @GetMapping("/")
     public ResponseEntity<List<Pays>> getAll() {
         return ResponseEntity.ok(paysService.findAll());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Pays> getById(@PathVariable Long id) {
+        return paysService.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping("/seed")
