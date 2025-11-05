@@ -24,6 +24,7 @@ public class PaysService {
     @Autowired
     private ContinentDao continentDao;
     private final String API_URL = "https://cdn.simplelocalize.io/public/v1/countries";
+
     public  void remplirPaysETContinent(){
         RestTemplate restTemplate = new RestTemplate();
         //api renvoie un tableau d'objet json

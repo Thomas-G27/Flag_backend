@@ -16,4 +16,5 @@ public class PaysDto {
     private String name;
     private String drapeau;
     private Set<LanguageDto> languageDtos;
+    private Set<ContinentDto> continentDtos;
 }
