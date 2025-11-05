@@ -41,7 +41,7 @@ public class CountryService {
         for (Map<String, Object> countryData : data) {
             String countryName = (String) countryData.get("name");
             String continentName = (String) countryData.get("continent");
-            String flag = (String) countryData.get("flag");
+            String flag = (String) countryData.get("code");
 
             if (countryName == null || continentName == null) continue;
 
