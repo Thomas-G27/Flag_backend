@@ -10,6 +10,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ContinentDto {
-    private Long id;
     private String name;
 }
