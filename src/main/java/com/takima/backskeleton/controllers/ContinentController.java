@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.takima.backskeleton.services.ContinentService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,6 +46,25 @@ public class ContinentController {
                                 .collect(Collectors.toList())
                 ))
                 .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/{id}/countries")
+    public ResponseEntity<List<CountryDto>> getCountryByContinent(@PathVariable Long id) {
+        return continentService.findById(id)
+                .map(continent -> {
+                    List<CountryDto> countries = continent.getCountries().stream()
+                            .map(countryDto -> new CountryDto(
+                                    countryDto.getName(),
+                                    countryDto.getFlag(),
+                                    countryDto.getContinent().getName(),
+                                    countryDto.getLanguages().stream()
+                                            .map(lang -> lang.getName())
+                                            .collect(Collectors.toList())
+                            ))
+                            .collect(Collectors.toList());
+                    return ResponseEntity.ok(countries);
+                })
                 .orElse(ResponseEntity.notFound().build());
     }
 }
