@@ -1,25 +1,24 @@
 package com.takima.backskeleton.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.util.List;
-@NoArgsConstructor
-@AllArgsConstructor
+
 @Entity
+@Table(name = "continent")
 @Getter
 @Setter
-@Table(name = "Continent")
+@NoArgsConstructor
 public class Continent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @OneToMany
-    private List<Pays> pays;
 
+    @OneToMany(mappedBy = "continent", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Country> countries;
 }

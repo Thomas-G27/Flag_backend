@@ -1,16 +1,18 @@
 package com.takima.backskeleton.DTO;
 
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.util.List;
+
 
 @Getter
 @Setter
 @AllArgsConstructor
-public class LanguageDto {
+public class CountryDto {
     private String name;
-    private String iso639_1;
-    private List<String> countries;
+    private String flag;
+    private String continent;
+    private List<String> languages;
 }
