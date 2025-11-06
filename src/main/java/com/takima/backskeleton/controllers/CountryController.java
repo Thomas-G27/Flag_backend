@@ -46,4 +46,19 @@ public class CountryController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    @GetMapping("/code/{code}")
+    public ResponseEntity<CountryDto> getByCode(@PathVariable String code) {
+        return countryService.findByCode(code)
+                .map(country -> new CountryDto(
+                        country.getName(),
+                        country.getFlag(),
+                        country.getContinent().getName(),
+                        country.getLanguages().stream()
+                                .map(lang -> lang.getName())
+                                .collect(Collectors.toList())
+                ))
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 }

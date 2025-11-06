@@ -24,4 +24,6 @@ public class ContinentService {
     public Optional<Continent> findById(Long id) {
         return continentDao.findById(id);
     }
+
+    public Optional<Continent> findByName(String name) { return continentDao.findByName(name); }
 }

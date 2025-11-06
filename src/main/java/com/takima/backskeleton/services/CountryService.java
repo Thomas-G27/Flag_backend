@@ -95,4 +95,8 @@ public class CountryService {
     public Optional<Country> findById(Long id) {
         return countryDao.findById(id);
     }
+
+    public Optional<Country> findByCode(String code) {
+        return countryDao.findByFlag(code);
+    }
 }

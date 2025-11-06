@@ -49,9 +49,9 @@ public class ContinentController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/{id}/countries")
-    public ResponseEntity<List<CountryDto>> getCountriesByContinent(@PathVariable Long id) {
-        return continentService.findById(id)
+    @GetMapping("/{name}/countries")
+    public ResponseEntity<List<CountryDto>> getCountriesByContinent(@PathVariable String name) {
+        return continentService.findByName(name)
                 .map(continent -> {
                     List<CountryDto> countries = continent.getCountries().stream()
                             .map(countryDto -> new CountryDto(
