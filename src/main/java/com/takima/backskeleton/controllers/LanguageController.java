@@ -1,6 +1,8 @@
 package com.takima.backskeleton.controllers;
 
+import com.takima.backskeleton.DTO.CountryDto;
 import com.takima.backskeleton.DTO.LanguageDto;
+import com.takima.backskeleton.models.Country;
 import com.takima.backskeleton.models.Language;
 import com.takima.backskeleton.services.LanguageService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +27,7 @@ public class LanguageController {
                         language.getName(),
                         language.getIso639_1(),
                         language.getCountries().stream()
-                                .map(country -> country.getName())
+                                .map(Country::getName)
                                 .collect(Collectors.toList())
                 ))
                 .collect(Collectors.toList());
@@ -40,10 +42,29 @@ public class LanguageController {
                         language.getName(),
                         language.getIso639_1(),
                         language.getCountries().stream()
-                                .map(country -> country.getName())
+                                .map(Country::getName)
                                 .collect(Collectors.toList())
                 ))
                 .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/{name}/countries")
+    public ResponseEntity<List<CountryDto>> getCountriesByLanguage(@PathVariable String name) {
+        return languageService.findByName(name)
+                .map(language -> {
+                    List<CountryDto> countries = language.getCountries().stream()
+                            .map(countryDto -> new CountryDto(
+                                    countryDto.getName(),
+                                    countryDto.getFlag(),
+                                    countryDto.getContinent().getName(),
+                                    countryDto.getLanguages().stream()
+                                            .map(Language::getName)
+                                            .collect(Collectors.toList())
+                            ))
+                            .collect(Collectors.toList());
+                    return ResponseEntity.ok(countries);
+                })
                 .orElse(ResponseEntity.notFound().build());
     }
 }
