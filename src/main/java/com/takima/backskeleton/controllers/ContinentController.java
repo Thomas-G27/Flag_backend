@@ -2,13 +2,13 @@ package com.takima.backskeleton.controllers;
 
 import com.takima.backskeleton.DTO.ContinentDto;
 import com.takima.backskeleton.DTO.CountryDto;
-import com.takima.backskeleton.models.Continent;
+import com.takima.backskeleton.models.Country;
+import com.takima.backskeleton.models.Language;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.takima.backskeleton.services.ContinentService;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,7 +28,7 @@ public class ContinentController {
                         //nom du continent
                         continent.getName(),
                         continent.getCountries().stream()
-                                .map(country -> country.getName())
+                                .map(Country::getName)
                                 .collect(Collectors.toList())
                 ))
                 .collect(Collectors.toList());
@@ -42,7 +42,7 @@ public class ContinentController {
                 .map(continent -> new ContinentDto(
                         continent.getName(),
                         continent.getCountries().stream()
-                                .map(country -> country.getName())
+                                .map(Country::getName)
                                 .collect(Collectors.toList())
                 ))
                 .map(ResponseEntity::ok)
@@ -59,7 +59,7 @@ public class ContinentController {
                                     countryDto.getFlag(),
                                     countryDto.getContinent().getName(),
                                     countryDto.getLanguages().stream()
-                                            .map(lang -> lang.getName())
+                                            .map(Language::getName)
                                             .collect(Collectors.toList())
                             ))
                             .collect(Collectors.toList());
