@@ -18,7 +18,7 @@ public class Game {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Float score;
-    private Timestamp date;
+    private Timestamp game_date;
     private String categorie;
 
     @ManyToOne(fetch = FetchType.LAZY)

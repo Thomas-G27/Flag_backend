@@ -24,7 +24,7 @@ public class GameController {
         List<GameDto> games = gameService.findAll().stream()
                 .map(game -> new GameDto(
                         game.getScore(),
-                        game.getDate(),
+                        game.getGame_date(),
                         game.getCategorie(),
                         game.getUtilisateur().getName()
                 ))
@@ -37,7 +37,7 @@ public class GameController {
         return gameService.findById(id)
                 .map(game -> new GameDto(
                         game.getScore(),
-                        game.getDate(),
+                        game.getGame_date(),
                         game.getCategorie(),
                         game.getUtilisateur().getName()
                 ))

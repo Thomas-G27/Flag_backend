@@ -1,10 +1,12 @@
-Do $$
 
-    DECLARE _STUDENT_1 int := NEXTVAL('students_id_seq');
+INSERT INTO utilisateur (name, mdp, email)
+VALUES
+    ('Alice', 'password123', 'alice@example.com'),
+    ('Bob', 'securepwd', 'bob@example.com');
 
-    BEGIN
-
-    INSERT INTO students (id, first_name, last_name, birthdate, major_id) VALUES (_STUDENT_1, 'Paul', 'Harrohide', '2002-06-15', _MAJOR_1);
-
-    END $$;
+INSERT INTO game (score, categorie, utilisateur_id)
+VALUES
+    (85.5, 'World', 1),
+    (92.0, 'World', 2),
+    (77.3, 'Europe', 1);
 
