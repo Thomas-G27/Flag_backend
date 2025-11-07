@@ -40,6 +40,10 @@ public class UtilisateurService {
         utilisateurDao.save(utilisateur);
     }
 
+    public void deleteUtilisateur(Utilisateur utilisateur) {
+        utilisateurDao.delete(utilisateur);
+    }
+
     public boolean verifyPassword(String rawPassword, String encodedPassword) {
         return passwordEncoder.matches(rawPassword, encodedPassword);
     }
