@@ -6,7 +6,7 @@ VALUES
 
 INSERT INTO game (score, categorie, utilisateur_id)
 VALUES
-    (85.5, 'World', 1),
-    (92.0, 'World', 2),
-    (77.3, 'Europe', 1);
+    (85.5, 'world', 1),
+    (92.0, 'world', 2),
+    (77.3, 'europe', 1);
 

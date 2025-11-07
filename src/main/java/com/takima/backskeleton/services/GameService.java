@@ -30,6 +30,8 @@ public class GameService {
         return gameDao.findByUtilisateur(utilisateur);
     }
 
+    public List<Game> findByCategorie(String categorie) { return gameDao.findByCategorie(categorie);}
+
     public void addGame(GameCreateDto gameCreateDto) {
         Utilisateur utilisateur = utilisateurDao.findByName(gameCreateDto.getUtilisateur_name())
                 .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé : " + gameCreateDto.getUtilisateur_name()));
@@ -46,4 +48,5 @@ public class GameService {
     public void deleteGameById(Long id) {
         gameDao.deleteById(id);
     }
+
 }

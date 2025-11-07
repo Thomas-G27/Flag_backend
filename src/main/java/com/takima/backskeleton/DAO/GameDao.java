@@ -10,6 +10,6 @@ import java.util.Optional;
 
 @Repository
 public interface GameDao extends JpaRepository<Game, Long> {
-    Optional<Game> findByCategorie(String categorie);
+    List<Game> findByCategorie(String categorie);
     List<Game> findByUtilisateur(Utilisateur utilisateur);
 }
