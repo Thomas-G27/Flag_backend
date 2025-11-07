@@ -1,6 +1,7 @@
 package com.takima.backskeleton.controllers;
 
 
+import com.takima.backskeleton.DTO.UtilisateurCreateDto;
 import com.takima.backskeleton.DTO.UtilisateurDto;
 import com.takima.backskeleton.services.UtilisateurService;
 import lombok.RequiredArgsConstructor;
@@ -38,5 +39,15 @@ public class UtilisateurController {
                 ))
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/")
+    public ResponseEntity<String> add(@RequestBody UtilisateurCreateDto utilisateurCreateDto){
+        try {
+            utilisateurService.addUtilisateur(utilisateurCreateDto);
+            return ResponseEntity.ok("Utilisateur ajouté !");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Erreur : " + e.getMessage());
+        }
     }
 }
