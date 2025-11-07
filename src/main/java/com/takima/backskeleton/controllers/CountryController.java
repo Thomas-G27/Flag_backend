@@ -1,6 +1,7 @@
 package com.takima.backskeleton.controllers;
 
 import com.takima.backskeleton.DTO.*;
+import com.takima.backskeleton.models.Language;
 import com.takima.backskeleton.services.CountryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class CountryController {
                         country.getFlag(),
                         country.getContinent().getName(),
                         country.getLanguages().stream()
-                                .map(lang -> lang.getName())
+                                .map(Language::getName)
                                 .collect(Collectors.toList())
                 ))
                 .collect(Collectors.toList());
@@ -40,7 +41,7 @@ public class CountryController {
                         country.getFlag(),
                         country.getContinent().getName(),
                         country.getLanguages().stream()
-                                .map(lang -> lang.getName())
+                                .map(Language::getName)
                                 .collect(Collectors.toList())
                 ))
                 .map(ResponseEntity::ok)
@@ -55,7 +56,7 @@ public class CountryController {
                         country.getFlag(),
                         country.getContinent().getName(),
                         country.getLanguages().stream()
-                                .map(lang -> lang.getName())
+                                .map(Language::getName)
                                 .collect(Collectors.toList())
                 ))
                 .map(ResponseEntity::ok)
