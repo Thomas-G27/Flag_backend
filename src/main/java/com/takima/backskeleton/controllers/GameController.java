@@ -1,6 +1,7 @@
 package com.takima.backskeleton.controllers;
 
 
+import com.takima.backskeleton.DTO.GameCreateDto;
 import com.takima.backskeleton.DTO.GameDto;
 import com.takima.backskeleton.models.Game;
 import com.takima.backskeleton.services.GameService;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -43,5 +45,25 @@ public class GameController {
                 ))
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/")
+    public ResponseEntity<String> add(@RequestBody GameCreateDto gameCreateDto) {
+        try {
+            gameService.addGame(gameCreateDto);
+            return ResponseEntity.ok("Game ajoutée !");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Erreur : " + e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteById(@PathVariable Long id) {
+        try {
+            gameService.deleteGameById(id);
+            return ResponseEntity.ok("Game supprimée !");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Erreur : " + e.getMessage());
+        }
     }
 }

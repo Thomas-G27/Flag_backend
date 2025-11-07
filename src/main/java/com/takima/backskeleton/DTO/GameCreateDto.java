@@ -2,6 +2,7 @@ package com.takima.backskeleton.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Timestamp;
@@ -9,10 +10,9 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @AllArgsConstructor
-public class GameDto {
+@NoArgsConstructor
+public class GameCreateDto {
     private Float score;
-    private Timestamp date;
     private String categorie;
     private String utilisateur_name;
-    
 }
