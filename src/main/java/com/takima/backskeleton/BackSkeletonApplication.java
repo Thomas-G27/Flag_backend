@@ -1,6 +1,7 @@
 package com.takima.backskeleton;
 
 import com.takima.backskeleton.services.CountryService;
+import com.takima.backskeleton.services.UtilisateurService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,9 +15,10 @@ public class BackSkeletonApplication {
 	}
 
 	@Bean
-	CommandLineRunner initDatabase(CountryService countryService) {
+	CommandLineRunner initDatabase(CountryService countryService, UtilisateurService utilisateurService) {
 		return args -> {
 			countryService.fillDatabaseFromAPI();
+			utilisateurService.fillUserAndGameInit();
 		};
 	}
 }

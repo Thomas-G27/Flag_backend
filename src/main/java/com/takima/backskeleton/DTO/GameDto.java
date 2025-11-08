@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 @Setter
 @AllArgsConstructor
 public class GameDto {
+    private Long id;
     private Float score;
     private Timestamp date;
     private String categorie;

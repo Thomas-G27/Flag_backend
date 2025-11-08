@@ -13,5 +13,5 @@ public class UtilisateurCreateDto {
     private String name;
     private String mdp;
     private String email;
-    private Boolean isAdmin;
+    private Boolean is_admin;
 }

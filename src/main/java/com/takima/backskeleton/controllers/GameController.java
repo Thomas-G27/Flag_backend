@@ -12,7 +12,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -29,6 +31,7 @@ public class GameController {
     public ResponseEntity<List<GameDto>> getAll() {
         List<GameDto> games = gameService.findAll().stream()
                 .map(game -> new GameDto(
+                        game.getId(),
                         game.getScore(),
                         game.getGame_date(),
                         game.getCategorie(),
@@ -42,6 +45,7 @@ public class GameController {
     public ResponseEntity<GameDto> getById(@PathVariable Long id) {
         return gameService.findById(id)
                 .map(game -> new GameDto(
+                        game.getId(),
                         game.getScore(),
                         game.getGame_date(),
                         game.getCategorie(),
@@ -59,6 +63,7 @@ public class GameController {
         }
         List<GameDto> games = gameService.findByUtilisateur(optionalUtilisateur.get()).stream()
                 .map(game -> new GameDto(
+                        game.getId(),
                         game.getScore(),
                         game.getGame_date(),
                         game.getCategorie(),
@@ -72,6 +77,7 @@ public class GameController {
     public ResponseEntity<List<GameDto>> getByCategorie(@PathVariable String categorie){
         List<GameDto> games = gameService.findByCategorie(categorie).stream()
                 .map(game -> new GameDto(
+                        game.getId(),
                         game.getScore(),
                         game.getGame_date(),
                         game.getCategorie(),
@@ -82,22 +88,41 @@ public class GameController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<String> add(@RequestBody GameCreateDto gameCreateDto) {
+    public ResponseEntity<Map<String, Object>> add(@RequestBody GameCreateDto gameCreateDto) {
         try {
             gameService.addGame(gameCreateDto);
-            return ResponseEntity.ok("Game ajoutée !");
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("response", 200);
+            response.put("message", "Partie sauvegardé !");
+
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Erreur : " + e.getMessage());
+
+            Map<String, Object> error_response = new HashMap<>();
+            error_response.put("response", 400);
+            error_response.put("message", "probleme lors de l'ajout en bdd");
+
+            return ResponseEntity.badRequest().body(error_response);
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteById(@PathVariable Long id) {
+    public ResponseEntity<Map<String, Object>> deleteById(@PathVariable Long id) {
         try {
             gameService.deleteGameById(id);
-            return ResponseEntity.ok("Game supprimée !");
+            Map<String, Object> response = new HashMap<>();
+            response.put("response", 200);
+            response.put("message", "Partie supprimée !");
+
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Erreur : " + e.getMessage());
+
+            Map<String, Object> error_response = new HashMap<>();
+            error_response.put("response", 400);
+            error_response.put("message", "probleme lors de la suppression...");
+
+            return ResponseEntity.badRequest().body(error_response);
         }
     }
 }
