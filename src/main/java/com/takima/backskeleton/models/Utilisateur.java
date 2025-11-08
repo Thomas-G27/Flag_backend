@@ -20,7 +20,7 @@ public class Utilisateur {
     private String name;
     private String mdp;
     private String email;
-    private boolean is_admin;
+    private boolean is_admin = false;
 
     @OneToMany(mappedBy = "utilisateur", cascade = CascadeType.ALL)
     @JsonManagedReference

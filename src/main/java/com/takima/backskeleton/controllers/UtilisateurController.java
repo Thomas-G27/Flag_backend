@@ -9,7 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -44,12 +46,32 @@ public class UtilisateurController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<String> add(@RequestBody UtilisateurCreateDto utilisateurCreateDto){
+    public ResponseEntity<Map<String, Object>> add(@RequestBody UtilisateurCreateDto utilisateurCreateDto){
         try {
-            utilisateurService.addUtilisateur(utilisateurCreateDto);
-            return ResponseEntity.ok("Utilisateur ajouté !");
+            Optional<Utilisateur> user_exist = utilisateurService.findByName(utilisateurCreateDto.getName());
+
+            if (user_exist.isPresent()) {
+                Map<String, Object> error_response = new HashMap<>();
+                error_response.put("response", 400);
+                error_response.put("message", "user already exists");
+                return ResponseEntity.badRequest().body(error_response);
+            }
+            else {
+                utilisateurService.addUtilisateur(utilisateurCreateDto);
+
+                Map<String, Object> response = new HashMap<>();
+                response.put("response", 200);
+                response.put("message", "Utilisateur ajouté !");
+
+                return ResponseEntity.ok(response);
+            }
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Erreur : " + e.getMessage());
+
+            Map<String, Object> error_response = new HashMap<>();
+            error_response.put("response", 400);
+            error_response.put("message", "probleme lors de l'ajout en bdd");
+
+            return ResponseEntity.badRequest().body(error_response);
         }
     }
 
