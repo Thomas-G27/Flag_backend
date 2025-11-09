@@ -24,9 +24,10 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String generateToken(String username) {
+    public String generateToken(String username, boolean isAdmin) {
         return Jwts.builder()
                 .setSubject(username)
+                .claim("isAdmin", isAdmin)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
@@ -35,6 +36,10 @@ public class JwtService {
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
+    }
+
+    public Boolean extractIsAdmin(String token) {
+        return extractClaim(token, claims -> (Boolean) claims.get("isAdmin"));
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> resolver) {
@@ -51,6 +56,7 @@ public class JwtService {
     }
 
     public boolean isTokenValid(String token, String username) {
+        System.out.println("===> Validation token: " + extractUsername(token) + " / " + username);
         return (username.equals(extractUsername(token))) && !isTokenExpired(token);
     }
 

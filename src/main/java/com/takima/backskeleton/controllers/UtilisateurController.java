@@ -45,6 +45,7 @@ public class UtilisateurController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    // Destinée a être supprimé car remplacée par le register de AuthController
     @PostMapping("/")
     public ResponseEntity<Map<String, Object>> add(@RequestBody UtilisateurCreateDto utilisateurCreateDto){
         try {
