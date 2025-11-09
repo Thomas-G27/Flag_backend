@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/utilisateurs")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
 public class UtilisateurController {
 
     private final UtilisateurService utilisateurService;
@@ -45,6 +44,7 @@ public class UtilisateurController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    // Destinée a être supprimé car remplacée par le register de AuthController
     @PostMapping("/")
     public ResponseEntity<Map<String, Object>> add(@RequestBody UtilisateurCreateDto utilisateurCreateDto){
         try {
