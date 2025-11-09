@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/continents")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
 public class ContinentController {
 
     private final ContinentService continentService;

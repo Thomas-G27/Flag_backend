@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/countries")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
 public class CountryController {
 
     private final CountryService countryService;

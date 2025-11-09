@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/games")
 @AllArgsConstructor
-@CrossOrigin("*")
 public class GameController {
 
     private final GameService gameService;
