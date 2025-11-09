@@ -1,18 +1,20 @@
-# Flag_backend
-# Country Quiz API – Spring Boot 3 (JPA + REST)
+# 🌍 Flag_backend
 
-## Description
+## Country Quiz API – Spring Boot 3 (JPA + REST + JWT)
 
-Ce projet est une API **Spring Boot 3** qui permet :
-- de **récupérer les pays**, leur **Code de drapeau**, leurs **continents** et **langues** depuis une API publique,
-- de **stocker ces données en base** (via Spring Data JPA),
-- de **récupérer ces pays selon leur continent ou leur langue officielle**
-- de **gérer une base d'utilisateurs** (ajout, suppression avec mdp chiffrés)
-- de **gérer une base de parties** qui contiennent les score des utilisateurs dans les mode de jeux
+## 🧩 Description
+
+Ce projet est une API **Spring Boot 3** permettant de :
+
+* **Récupérer et stocker des pays**, continents et langues depuis une API publique.
+* **Gérer des utilisateurs** avec mots de passe chiffrés (BCrypt) et rôles (`is_admin`).
+* **Gérer des parties (games)** associées aux utilisateurs.
+* **Authentifier** les utilisateurs via **JWT Token**.
+* **Protéger les endpoints** pour n’autoriser l’accès qu’aux utilisateurs connectés.
 
 ---
 
-## Structure de la base de donnée
+## 🗃️ Structure de la base de données
 
 ### Table country :
 La table country est reliée en ManyToOne à la table continent et ManyToMany à la table language, elle comprends :
@@ -30,7 +32,7 @@ La table continent est reliée en OneToMany à la table country, elle comprends 
 La table language est reliée en ManyToMany à la table country, elle comprends :
 - **Id :** l'identifiant de la langue dans la bdd
 - **name :** le nom de la langue
-- **iso639_1 :** le code de la langue 
+- **iso639_1 :** le code de la langue
 
 ### Table country_language :
 La table country_language est la table de liaison entre country et language, elle comprends :
@@ -54,86 +56,157 @@ La table game est reliée en ManyToOne à la table utilisateur, elle comprends :
 - **utilisateur_id :** l'identifiant de l'utilisateur qui a réalisé la partie
 
 ---
-## Les Endpoints REST
 
-### A remplir
+## 🚀 Endpoints REST
+
+### 🔑 AUTHENTIFICATION
+
+| Méthode | Endpoint             | Description                           | Corps de requête                                                                      | Auth requise |
+| ------- | -------------------- | ------------------------------------- | ------------------------------------------------------------------------------------- | ------------ |
+| `POST`  | `/api/auth/register` | Inscription d’un utilisateur          | `{ "name": "john", "email": "john@example.com", "mdp": "123456", "is_admin": false }` | ❌            |
+| `POST`  | `/api/auth/login`    | Connexion + récupération du token JWT | `{ "name": "john", "password": "123456" }`                                            | ❌            |
+
+🧠 **Réponse du login :**
+
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR..."
+}
+```
 
 ---
 
-## Exemple d’utilisation (via Postman)
+### 🧍 UTILISATEURS
 
-### Pré-requis
+| Méthode  | Endpoint                 | Description                                                        | Auth requise                          |
+| -------- | ------------------------ |--------------------------------------------------------------------|---------------------------------------|
+| `GET`    | `/api/utilisateurs/`     | Récupère tous les utilisateurs                                     | ✅                                     |
+| `GET`    | `/api/utilisateurs/{id}` | Récupère un utilisateur par ID                                     | ✅                                     |
+| `POST`   | `/api/utilisateurs/`     | Crée un nouvel utilisateur (équivalent à register, utile si admin) | ✅                                     |
+| `DELETE` | `/api/utilisateurs/{id}` | Supprime un utilisateur                                            | ✅ *(admin dans une prochaine version)* |
 
-- avoir le fichier .env bien configuré avec les variables suivantes :
-  - DATABASE_USER=
-  - DATABASE_PASSWORD=
-  - DATABASE_NAME=
-  - JWT_SECRET= clé secrete encodé en base64 (penser a vérifier que ça fini par un "=")
-  - expiration_time= temps en miliseconde
+---
 
-- lancer le fichier schema.sql
+### 🎮 GAMES (parties)
 
-  // Peut etre lancer un programme d'initialisation de la db dans un premier temps, l'arrêter, puis
+| Méthode  | Endpoint                            | Description                                 | Corps / Paramètres                                                   | Auth requise                           |
+| -------- | ----------------------------------- | ------------------------------------------- |----------------------------------------------------------------------|----------------------------------------|
+| `GET`    | `/api/games/`                       | Liste toutes les parties                    | -                                                                    | ✅                                      |
+| `GET`    | `/api/games/{id}`                   | Récupère une partie par son ID              | -                                                                    | ✅                                      |
+| `GET`    | `/api/games/utilisateur/{username}` | Récupère les parties d’un utilisateur donné | -                                                                    | ✅                                      |
+| `GET`    | `/api/games/categorie/{categorie}`  | Récupère les parties selon une catégorie    | -                                                                    | ✅                                      |
+| `POST`   | `/api/games/`                       | Ajoute une partie                           | `{ "score": 85.5, "categorie": "europe", "utilisateurName": "john" }` | ✅                                      |
+| `DELETE` | `/api/games/{id}`                   | Supprime une partie par ID                  | -                                                                    | ✅ *(admin dans une prochaine version)* |
 
-- lancer l'application "BackSkeletonApplication"
+---
 
-###  Dans Postman
-- `{{baseUrl}}` → `http://localhost:8080`
+### 🌍 COUNTRIES (pays)
 
-###  Créer un utilisateur
+| Méthode | Endpoint                                | Description                              | Auth requise |
+| ------- | --------------------------------------- | ---------------------------------------- | ------------ |
+| `GET`   | `/api/countries/`                       | Liste tous les pays                      | ✅            |
+| `GET`   | `/api/countries/{id}`                   | Récupère un pays par ID                  | ✅            |
+| `GET`   | `/api/countries/code/{code}`            | Récupère un pays par code ISO            | ✅            |
+| `GET`   | `/api/continents/{continent}/countries` | Liste les pays d’un continent donné      | ✅            |
+| `GET`   | `/api/languages/{language}/countries`   | Liste les pays parlant une langue donnée | ✅            |
+
+---
+
+### 🗺️ CONTINENTS
+
+| Méthode | Endpoint               | Description                                                                   | Auth requise |
+| ------- | ---------------------- |-------------------------------------------------------------------------------| ------------ |
+| `GET`   | `/api/continents/`     | Liste tous les continents                                                     | ✅            |
+| `GET`   | `/api/continents/{id}` | Récupère un continent par ID et affiche les noms des pays qui lui appartienne | ✅            |
+
+---
+
+### 🗣️ LANGUAGES
+
+| Méthode | Endpoint              | Description                                                                     | Auth requise |
+| ------- | --------------------- |---------------------------------------------------------------------------------| ------------ |
+| `GET`   | `/api/languages/`     | Liste toutes les langues                                                        | ✅            |
+| `GET`   | `/api/languages/{id}` | Récupère une langue par ID et affiche les nom des pays qui perlent cette langue | ✅            |
+
+---
+
+## ⚙️ Exemple d’utilisation via Postman
+
+### 1️⃣ Inscription
+
 ```http
-POST {{baseUrl}}/api/auth/register
+POST http://localhost:8080/api/auth/register
 ```
-avec le raw json suivant
-```http
+
+Body (JSON) :
+
+```json
 {
   "name": "example",
-  "email": "example1@example.com",
+  "email": "example@example.com",
   "mdp": "123456",
   "is_admin": false
 }
 ```
 
-###  Se 'connecter' (récuperer un token pour accéder aux autres endpoints)
+### 2️⃣ Connexion
+
 ```http
-POST {{baseUrl}}/api/auth/login
+POST http://localhost:8080/api/auth/login
 ```
-avec le raw json suivant
-```http
+
+Body (JSON) :
+
+```json
 {
   "name": "example",
-  "mdp": "123456"
+  "password": "123456"
 }
 ```
-Il est pour la suite nécessaire de récuperer le token donné par la réponse et de le renseigner en selectionnant 'bearer token' dans authorization dans postman.
 
-###  Lister les pays
-```http
-GET {{baseUrl}}/api/countries/
-```
-###  Lister les continents
-```http
-GET {{baseUrl}}/api/continents/
-```
-###  Lister les langues
-```http
-GET {{baseUrl}}/api/languages/
-```
-###  Lister les utilisateurs
-```http
-GET {{baseUrl}}/api/utilisateurs/
-```
-###  Lister les parties
-```http
-GET {{baseUrl}}/api/games/
-```
+➡️ Récupérer le `token` dans la réponse et le mettre dans **Authorization → Bearer Token**
 
-... continuer avec tout les endpoints qui sont disponibles dans le code
+### 3️⃣ Accès à un endpoint protégé
+
+```http
+GET http://localhost:8080/api/games/
+Authorization: Bearer <votre_token>
+```
 
 ---
 
+## 🔐 Sécurité & Authentification
 
+* Authentification gérée via **JWT Token**
+* Les endpoints `/api/auth/**` sont publics
+* Tous les autres endpoints nécessitent un **token valide**
+* Les mots de passe sont **hashés avec BCrypt**
+* Le token contient un claim `isAdmin` permettant de vérifier les privilèges
 
+---
 
+## ⚙️ Variables d’environnement (.env)
 
+Créer un fichier `.env` à la racine du projet backend :
+
+```env
+DATABASE_USER=
+DATABASE_PASSWORD=
+DATABASE_NAME=
+JWT_SECRET=LaCleSecreteEncodeeBase64=
+EXPIRATION_TIME=360000
+```
+
+---
+
+## 🏗️ Lancer le projet
+
+1. Importer le projet dans IntelliJ
+2. Vérifier le fichier `.env` (le demander si nécessaire, les valeurs ne sont pas les meme que dans ce readme)
+3. Vérifier que le conteneur Dokcer tourne bien
+4. Lancer la classe `BackSkeletonApplication`
+5. L’API tourne sur :
+   👉 [http://localhost:8080](http://localhost:8080)
+
+---
 

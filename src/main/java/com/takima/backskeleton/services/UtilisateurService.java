@@ -59,14 +59,14 @@ public class UtilisateurService {
         Utilisateur utilisateur1 = new Utilisateur();
         utilisateur1.setName("Alice");
         utilisateur1.setEmail("alice@gmail.com");
-        utilisateur1.setMdp("alice.mdp");
+        utilisateur1.setMdp(passwordEncoder.encode("alice.mdp"));
         utilisateur1.set_admin(true);
         utilisateurDao.save(utilisateur1);
 
         Utilisateur utilisateur2 = new Utilisateur();
         utilisateur2.setName("Bob");
         utilisateur2.setEmail("bob@gmail.com");
-        utilisateur2.setMdp("bob.mdp");
+        utilisateur2.setMdp(passwordEncoder.encode("bob.mdp"));
         utilisateur2.set_admin(false);
         utilisateurDao.save(utilisateur2);
 
