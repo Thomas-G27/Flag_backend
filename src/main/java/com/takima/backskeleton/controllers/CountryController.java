@@ -81,4 +81,20 @@ public class CountryController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/with-capital")
+    public ResponseEntity<List<CountryDto>> getWithCapital() {
+        List<CountryDto> countries = countryService.findAllWithCapital().stream()
+                .map(country -> new CountryDto(
+                        country.getName(),
+                        country.getFlag(),
+                        country.getCapital(),
+                        country.getContinent().getName(),
+                        country.getLanguages().stream()
+                                .map(Language::getName)
+                                .collect(Collectors.toList())
+                ))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(countries);
+    }
 }

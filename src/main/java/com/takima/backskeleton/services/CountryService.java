@@ -94,6 +94,19 @@ public class CountryService {
         return list;
     }
 
+    public List<Country> findAllWithCapital() {
+        List<Country> list = new ArrayList<>();
+        List<Country> filtered_list = new ArrayList<>();
+        // ajout des pays qui ont une capitale non null
+        countryDao.findAll().forEach(list::add);
+        for (Country country : list) {
+            if (country.getCapital() != null && country.getCapital().length() > 1) {
+                filtered_list.add(country);
+            }
+        }
+        return filtered_list;
+    }
+
     public Optional<Country> findById(Long id) {
         return countryDao.findById(id);
     }
