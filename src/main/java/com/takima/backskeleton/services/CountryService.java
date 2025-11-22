@@ -42,6 +42,7 @@ public class CountryService {
             String countryName = (String) countryData.get("name");
             String continentName = (String) countryData.get("continent");
             String flag = (String) countryData.get("code");
+            String capitalName = (String) countryData.get("capital_name");
 
             if (countryName == null || continentName == null) continue;
 
@@ -58,6 +59,7 @@ public class CountryService {
             country.setName(countryName);
             country.setFlag(flag);
             country.setContinent(continent);
+            country.setCapital(capitalName);
 
             // --- Languages ---
             List<Map<String, Object>> langs = (List<Map<String, Object>>) countryData.get("languages");
@@ -99,4 +101,6 @@ public class CountryService {
     public Optional<Country> findByCode(String code) {
         return countryDao.findByFlag(code);
     }
+
+    public Optional<Country> findByCapital(String capital_name) {return countryDao.findByCapital(capital_name);}
 }
