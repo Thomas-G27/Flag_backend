@@ -56,6 +56,7 @@ public class ContinentController {
                             .map(countryDto -> new CountryDto(
                                     countryDto.getName(),
                                     countryDto.getFlag(),
+                                    countryDto.getCapital(),
                                     countryDto.getContinent().getName(),
                                     countryDto.getLanguages().stream()
                                             .map(Language::getName)

@@ -57,6 +57,7 @@ public class LanguageController {
                                     countryDto.getName(),
                                     countryDto.getFlag(),
                                     countryDto.getContinent().getName(),
+                                    countryDto.getCapital(),
                                     countryDto.getLanguages().stream()
                                             .map(Language::getName)
                                             .collect(Collectors.toList())

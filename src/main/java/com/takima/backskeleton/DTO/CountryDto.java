@@ -13,6 +13,7 @@ import java.util.List;
 public class CountryDto {
     private String name;
     private String flag;
+    private String capital;
     private String continent;
     private List<String> languages;
 }

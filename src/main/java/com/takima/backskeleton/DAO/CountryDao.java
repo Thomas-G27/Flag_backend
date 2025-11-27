@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface CountryDao extends CrudRepository<Country, Long> {
     Optional<Country> findByName(String name);
     Optional<Country> findByFlag(String flag);
+    Optional<Country> findByCapital(String capital);
 }

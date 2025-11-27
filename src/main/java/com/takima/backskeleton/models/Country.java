@@ -20,6 +20,7 @@ public class Country {
 
     private String name;
     private String flag;
+    private String capital;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "continent_id")
