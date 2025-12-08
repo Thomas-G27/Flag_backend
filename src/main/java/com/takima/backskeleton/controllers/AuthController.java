@@ -1,20 +1,26 @@
 package com.takima.backskeleton.controllers;
 
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.takima.backskeleton.DAO.UtilisateurDao;
 import com.takima.backskeleton.DTO.UtilisateurCreateDto;
 import com.takima.backskeleton.models.Utilisateur;
 import com.takima.backskeleton.security.JwtService;
 import com.takima.backskeleton.services.UtilisateurService;
-import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.*;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -37,6 +43,8 @@ public class AuthController {
                 .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
 
         String token = jwtService.generateToken(utilisateur.getName(), utilisateur.is_admin());
+        // log de vérification
+        System.out.println("success");
         return Map.of("token", token);
     }
 
